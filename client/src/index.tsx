@@ -3,11 +3,15 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { ApolloProvider,InMemoryCache,ApolloClient } from '@apollo/client';
+import { ApolloProvider,InMemoryCache,ApolloClient,createHttpLink } from '@apollo/client';
+import { authLink } from './utils/Apollo/links';
 
+const httpLink = createHttpLink({
+  uri: 'http://localhost:4000/graphql' as string,
+});
 
 const client = new ApolloClient({
-  uri:'http://localhost:4000/graphql' as string,
+  link:authLink.concat(httpLink),
   cache:new InMemoryCache(),
   credentials:'include'
 })
